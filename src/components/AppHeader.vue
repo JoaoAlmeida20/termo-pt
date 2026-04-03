@@ -16,6 +16,8 @@ const emit = defineEmits<{
   'change-mode': [GameMode]
 }>()
 
+const isDev = import.meta.env.DEV
+
 const dropdownOpen = ref(false)
 const selectorRef = ref<HTMLElement | null>(null)
 
@@ -41,7 +43,7 @@ onUnmounted(() => document.removeEventListener('click', onDocumentClick))
 <template>
   <header class="header">
     <div class="header-left">
-      <button v-blur-on-click class="icon-btn debug-btn" @click="$emit('clear-game')" aria-label="Debug: limpar jogo" title="Debug: limpar jogo">
+      <button v-if="isDev" v-blur-on-click class="icon-btn debug-btn" @click="$emit('clear-game')" aria-label="Debug: limpar jogo" title="Debug: limpar jogo">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="3 5 3 11 10 11"/>
           <path d="M3.51 15 a9 9 0 1 0 .49 -4.46"/>

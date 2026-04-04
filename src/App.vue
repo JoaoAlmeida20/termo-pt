@@ -185,6 +185,7 @@ function clearGame() {
     :reveal-row="termoGame.revealRow.value"
     :bounce-row="termoGame.bounceRow.value"
     :status="termoGame.status.value"
+    @cursor-jump="termoGame.jumpCursor($event)"
   />
 
   <MultiGameBoard
@@ -199,6 +200,7 @@ function clearGame() {
     :shake-row="activeMode === 'dueto' ? duetGame.shakeRow.value : quartetoGame.shakeRow.value"
     :reveal-row="activeMode === 'dueto' ? duetGame.revealRow.value : quartetoGame.revealRow.value"
     :bounce-rows="activeMode === 'dueto' ? duetGame.bounceRows.value : quartetoGame.bounceRows.value"
+    @cursor-jump="(activeMode === 'dueto' ? duetGame : quartetoGame).jumpCursor($event)"
   />
 
   <Keyboard

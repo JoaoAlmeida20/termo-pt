@@ -2,6 +2,8 @@
 import type { EvaluatedGuess, GameStatus, MultiEvaluatedGuess, GameConfig } from '../engine/types'
 import GameBoard from './GameBoard.vue'
 
+const emit = defineEmits<{ 'cursor-jump': [index: number] }>()
+
 const props = defineProps<{
   mode: 'dueto' | 'quarteto'
   guesses: MultiEvaluatedGuess[]
@@ -43,6 +45,7 @@ function boardStatus(wordIndex: number): GameStatus {
         :reveal-row="revealRow"
         :bounce-row="bounceRows[i - 1]"
         :status="boardStatus(i - 1)"
+        @cursor-jump="emit('cursor-jump', $event)"
       />
     </div>
   </div>

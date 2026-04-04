@@ -66,6 +66,7 @@ onMounted(() => {
 
 .tile--empty {
   border-color: var(--color-tile-border);
+  cursor: pointer;
 }
 
 .tile--waiting {
@@ -75,6 +76,7 @@ onMounted(() => {
 
 .tile--input {
   border-color: var(--color-tile-border-active);
+  cursor: pointer;
 }
 
 .tile--correct {

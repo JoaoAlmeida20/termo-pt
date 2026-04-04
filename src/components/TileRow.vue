@@ -2,6 +2,8 @@
 import type { EvaluatedLetter } from '../engine/types'
 import Tile from './Tile.vue'
 
+const emit = defineEmits<{ 'cursor-jump': [index: number] }>()
+
 const props = defineProps<{
   letters?: EvaluatedLetter[]
   inputLetters?: string[]
@@ -12,6 +14,12 @@ const props = defineProps<{
   bounce?: boolean
   waiting?: boolean
 }>()
+
+function handleTileClick(index: number) {
+  if (props.inputLetters !== undefined) {
+    emit('cursor-jump', index)
+  }
+}
 
 function getTileProps(index: number) {
   if (props.letters) {
@@ -52,7 +60,7 @@ function getTileProps(index: number) {
 
 <template>
   <div class="tile-row" :class="{ shake }">
-    <Tile v-for="i in wordLength" :key="i - 1" v-bind="getTileProps(i - 1)" />
+    <Tile v-for="i in wordLength" :key="i - 1" v-bind="getTileProps(i - 1)" @click="handleTileClick(i - 1)" />
   </div>
 </template>
 

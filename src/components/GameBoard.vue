@@ -3,6 +3,8 @@ import { computed } from 'vue'
 import type { EvaluatedGuess, GameConfig, GameStatus } from '../engine/types'
 import TileRow from './TileRow.vue'
 
+const emit = defineEmits<{ 'cursor-jump': [index: number] }>()
+
 const props = defineProps<{
   guesses: EvaluatedGuess[]
   currentLetters: string[]
@@ -62,6 +64,7 @@ const rows = computed<RowData[]>(() => {
       :bounce="row.bounce"
       :shake="row.shake"
       :waiting="row.type === 'empty'"
+      @cursor-jump="emit('cursor-jump', $event)"
     />
   </div>
 </template>

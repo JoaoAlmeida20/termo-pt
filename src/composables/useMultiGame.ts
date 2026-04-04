@@ -166,6 +166,11 @@ export function useMultiGame(mode: 'dueto' | 'quarteto') {
     storage.saveModeStats(mode, stats)
   }
 
+  function jumpCursor(index: number) {
+    if (isGameOver.value) return
+    cursorPosition.value = Math.max(0, Math.min(wordLength - 1, index))
+  }
+
   function resetGame() {
     guesses.value = []
     currentLetters.value = Array(wordLength).fill('')
@@ -228,6 +233,7 @@ export function useMultiGame(mode: 'dueto' | 'quarteto') {
     addLetter,
     removeLetter,
     moveCursor,
+    jumpCursor,
     submitGuess,
     generateShareText,
     resetGame,

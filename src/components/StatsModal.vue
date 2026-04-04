@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import type { PlayerStats, GameStatus } from '../engine/types'
 import ModalOverlay from './ModalOverlay.vue'
 
@@ -36,6 +36,32 @@ const lossCount = computed(() => Math.max(0, props.stats.gamesPlayed - props.sta
 function maxDistribution() {
   return Math.max(...props.stats.guessDistribution, lossCount.value, 1)
 }
+
+const timeUntilMidnight = ref('')
+
+function calcTimeUntilMidnight(): string {
+  const now = new Date()
+  const midnight = new Date(now)
+  midnight.setHours(24, 0, 0, 0)
+  const diff = midnight.getTime() - now.getTime()
+  const h = Math.floor(diff / 3_600_000)
+  const m = Math.floor((diff % 3_600_000) / 60_000)
+  const s = Math.floor((diff % 60_000) / 1_000)
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+}
+
+let timer: ReturnType<typeof setInterval> | null = null
+
+onMounted(() => {
+  timeUntilMidnight.value = calcTimeUntilMidnight()
+  timer = setInterval(() => {
+    timeUntilMidnight.value = calcTimeUntilMidnight()
+  }, 1000)
+})
+
+onUnmounted(() => {
+  if (timer) clearInterval(timer)
+})
 </script>
 
 <template>
@@ -100,14 +126,15 @@ function maxDistribution() {
       <strong>{{ answers.join(', ') }}</strong>
     </div>
 
-    <button
-      v-if="gameStatus !== 'playing'"
-      v-blur-on-click
-      class="share-btn"
-      @click="share"
-    >
-      {{ copied ? 'Copiado!' : 'Partilhar' }}
-    </button>
+    <div v-if="gameStatus !== 'playing'" class="bottom-row">
+      <div class="next-word">
+        <div class="next-word-label">Próxima palavra em</div>
+        <div class="next-word-countdown">{{ timeUntilMidnight }}</div>
+      </div>
+      <button v-blur-on-click class="share-btn" @click="share">
+        {{ copied ? 'Copiado!' : 'Partilhar' }}
+      </button>
+    </div>
   </ModalOverlay>
 </template>
 
@@ -203,9 +230,37 @@ function maxDistribution() {
   text-transform: uppercase;
 }
 
+.bottom-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.next-word {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.next-word-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  font-weight: 700;
+  align-self: center;
+}
+
+.next-word-countdown {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  align-self: center;
+}
+
 .share-btn {
-  display: block;
-  margin: 20px auto 0;
   padding: 12px 32px;
   background: var(--color-correct);
   color: white;

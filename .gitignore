@@ -1,5 +1,7 @@
-subtlex_pt.xlsx
-subtlex_pt.zip
+*.xlsx
+*.xls
+*.zip
+*.pdf
 node_modules
 dist
 .vite

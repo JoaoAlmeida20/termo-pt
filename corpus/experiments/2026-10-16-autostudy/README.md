@@ -1,8 +1,10 @@
 # Word-list experiment (2026-10)
 
-Self-contained experiment for better European-Portuguese (pt-PT) 5-letter lists.
-Self-contained: inputs, sources and outputs all live inside this folder; it does
+Self-contained experiment for better European-Portuguese (pt-PT) 5-letter lists:
+inputs, sources and outputs all live inside this folder; it does
 **not** touch `corpus/words-*.txt` or `src/data/*.txt`.
+
+Researched autonomously by agent; technical report of the research, experiments and results is `REPORT.html` (open in a browser).
 
 ## Outputs (`output/`)
 

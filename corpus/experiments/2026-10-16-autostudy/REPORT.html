@@ -1,0 +1,482 @@
+<title>Termo PT Word-List Study</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: single reading column (~68ch) with wide tables/figures breaking out to 1040px; Wordle tiles as the recurring subject motif. */
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --fg: #16202b;
+  --muted: #56616e;
+  --faint: #8a94a0;
+  --rule: #dfe3e8;
+  --accent: #1f5fae;          /* azulejo cobalt */
+  --accent-soft: #e6eef8;
+  --tile-correct: #3f8f5a;
+  --tile-present: #c9a227;
+  --tile-absent: #7b838c;
+  --tile-ink: #ffffff;
+  --good: #2f7d4d;
+  --bad: #b3403a;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --code-bg: #eef1f5;
+  --display: "Literata", Georgia, "Times New Roman", serif;
+  --body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --surface: #171e27; --fg: #e6eaef; --muted: #a3adb9; --faint: #7d8794;
+    --rule: #2a3440; --accent: #7fb0ec; --accent-soft: #1c2a3b;
+    --tile-correct: #4c9a66; --tile-present: #b8932a; --tile-absent: #5a636d; --tile-ink: #ffffff;
+    --good: #6cc08a; --bad: #e57f78; --series-1: #3987e5; --series-2: #d95926; --code-bg: #1d2530;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --surface: #171e27; --fg: #e6eaef; --muted: #a3adb9; --faint: #7d8794;
+  --rule: #2a3440; --accent: #7fb0ec; --accent-soft: #1c2a3b;
+  --tile-correct: #4c9a66; --tile-present: #b8932a; --tile-absent: #5a636d; --tile-ink: #ffffff;
+  --good: #6cc08a; --bad: #e57f78; --series-1: #3987e5; --series-2: #d95926; --code-bg: #1d2530;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 16px/1.62 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 80px;
+}
+.page { max-width: 1040px; margin: 0 auto; }
+.prose { max-width: 70ch; }
+h1, h2, h3 { font-family: var(--display); font-weight: 650; line-height: 1.2; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 4.2vw, 2.9rem); letter-spacing: -0.01em; }
+h2 { font-size: 1.6rem; margin-top: 3.2rem; padding-top: 1.4rem; border-top: 1px solid var(--rule); }
+h3 { font-size: 1.15rem; margin-top: 1.9rem; }
+p, ul, ol { margin: 0.8rem 0 0; }
+li + li { margin-top: 0.3rem; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code, .mono { font-family: var(--mono); font-size: 0.86em; }
+code { background: var(--code-bg); padding: 0.08em 0.35em; border-radius: 3px; }
+.eyebrow { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.lede { font-size: 1.12rem; color: var(--muted); max-width: 64ch; margin-top: 1rem; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 1.1rem; font-size: 0.85rem; color: var(--muted); }
+
+/* tiles motif */
+.tiles { display: inline-flex; gap: 4px; vertical-align: middle; }
+.tile {
+  width: 1.55em; height: 1.55em; display: inline-grid; place-items: center;
+  font: 700 0.78em/1 var(--body); text-transform: uppercase; color: var(--tile-ink);
+  background: var(--tile-absent); border-radius: 3px;
+}
+.tile.c { background: var(--tile-correct); } .tile.p { background: var(--tile-present); }
+.hero-tiles { font-size: 1.6rem; margin-bottom: 1.1rem; }
+.words { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-top: 0.7rem; }
+.word {
+  font: 600 0.82rem/1 var(--mono); padding: 0.32em 0.5em; border-radius: 3px;
+  background: var(--surface); border: 1px solid var(--rule); letter-spacing: 0.04em;
+}
+.word.bad { text-decoration: line-through; text-decoration-color: var(--bad); color: var(--muted); }
+
+/* summary */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 2rem; }
+.stat { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 16px 18px; min-width: 0; }
+.stat .k { font-size: 0.8rem; color: var(--muted); }
+.stat .v { font: 650 1.9rem/1.15 var(--display); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.stat .d { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+.verdict { background: var(--accent-soft); border-radius: 6px; padding: 18px 22px; margin-top: 1.6rem; max-width: 76ch; }
+.verdict p:first-child { margin-top: 0; }
+
+/* tables */
+.tablewrap { overflow-x: auto; margin-top: 1rem; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.hl td { background: var(--accent-soft); }
+td .sub { display: block; color: var(--muted); font-size: 0.82rem; }
+.good { color: var(--good); font-weight: 600; } .bad { color: var(--bad); font-weight: 600; }
+.bar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; background: var(--accent); vertical-align: middle; margin-right: 6px; }
+
+/* chart */
+.figure { margin-top: 1.2rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 18px 14px; }
+.figure h4 { margin: 0; font: 600 0.95rem/1.3 var(--body); }
+.figure .cap { font-size: 0.84rem; color: var(--muted); margin-top: 4px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.82rem; color: var(--muted); margin-top: 10px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.chart { margin-top: 14px; display: grid; gap: 16px; }
+.grp { display: grid; grid-template-columns: 9.5rem 1fr; gap: 4px 12px; align-items: center; }
+.grp .lbl { font-weight: 600; font-size: 0.88rem; grid-row: span 2; }
+.grp .lbl small { display: block; font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+.track { position: relative; height: 16px; }
+.track .fill { position: absolute; left: 0; top: 2px; height: 12px; border-radius: 0 4px 4px 0; }
+.track .ci { position: absolute; top: 7px; height: 2px; background: var(--fg); opacity: 0.55; z-index: 1; }
+.track .val { z-index: 2; }
+.track .ci::before, .track .ci::after { content: ""; position: absolute; top: -4px; width: 2px; height: 10px; background: var(--fg); }
+.track .ci::before { left: 0; } .track .ci::after { right: 0; }
+.track .val { position: absolute; top: -1px; font: 600 0.78rem/1 var(--mono); color: var(--fg); padding-left: 8px; white-space: nowrap; }
+.track .hit { position: absolute; inset: -4px 0; cursor: default; }
+.tip {
+  position: absolute; z-index: 5; left: 0; bottom: calc(100% + 6px); pointer-events: none;
+  background: var(--fg); color: var(--bg); font-size: 0.78rem; padding: 6px 8px; border-radius: 4px;
+  white-space: nowrap; opacity: 0; transform: translateY(2px); transition: opacity .12s, transform .12s;
+}
+.track:hover .tip, .track:focus-within .tip { opacity: 1; transform: none; }
+.axis { display: grid; grid-template-columns: 9.5rem 1fr; gap: 12px; }
+.axis .scale { position: relative; height: 18px; border-top: 1px solid var(--rule); font: 0.72rem/1 var(--mono); color: var(--faint); }
+.axis .scale span { position: absolute; top: 5px; transform: translateX(-50%); }
+.axis .scale span:first-child { transform: none; }
+.axis .scale span:last-child { transform: translateX(-100%); }
+
+/* misc */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-top: 1rem; }
+.cols > div { min-width: 0; }
+.note { font-size: 0.86rem; color: var(--muted); }
+pre.mermaid { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 14px; overflow-x: auto; margin-top: 1rem; }
+pre.code { background: var(--code-bg); border-radius: 6px; padding: 14px 16px; overflow-x: auto; font: 0.82rem/1.55 var(--mono); margin-top: 0.9rem; }
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15em 0.55em; border-radius: 99px; border: 1px solid currentColor; letter-spacing: 0.03em; }
+.pill.hard { color: var(--bad); } .pill.soft { color: var(--tile-present); }
+ol.steps > li::marker { font-weight: 700; color: var(--accent); }
+footer { margin-top: 3rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); font-size: 0.84rem; color: var(--muted); }
+@media (max-width: 560px) {
+  .grp, .axis { grid-template-columns: 6.8rem 1fr; }
+  h2 { font-size: 1.4rem; }
+}
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+</style>
+
+<div class="page">
+
+<header>
+  <div class="tiles hero-tiles" aria-hidden="true">
+    <span class="tile c">t</span><span class="tile c">e</span><span class="tile p">r</span><span class="tile c">m</span><span class="tile c">o</span>
+  </div>
+  <div class="eyebrow">Technical report · termo-pt · 16 Oct 2026</div>
+  <h1>Termo PT Word-List Study</h1>
+  <p class="lede">Building European-Portuguese answer and guess lists that cut Brazilian leakage and odd words without losing coverage. The report also covers the icon swap to Lucide.</p>
+  <div class="meta">
+    <span>Experiment dir: <code>corpus/experiments/claude-2026-10/</code></span>
+    <span>Existing lists and scripts untouched</span>
+    <span>Nothing committed yet</span>
+  </div>
+</header>
+
+<section class="summary" aria-label="Key results">
+  <div class="stat"><div class="k">Answers judged good, blind test</div><div class="v">84–90%</div><div class="d">vs 40–43% for the current list</div></div>
+  <div class="stat"><div class="k">Recommended answer list</div><div class="v">1,692</div><div class="d">about 4.6 years of daily Termo words; 1,513 without feminine forms</div></div>
+  <div class="stat"><div class="k">Valid guesses</div><div class="v">6,973</div><div class="d">99.97% of EP 5-letter tokens accepted; 0 accent collisions (was 140)</div></div>
+  <div class="stat"><div class="k">Brazilianism detector, held out</div><div class="v">93%</div><div class="d">recall at 0% false positives on LanguageTool BR↔PT pairs</div></div>
+</section>
+
+<div class="verdict prose">
+  <p><strong>Recommendation.</strong> Promote <code>output/words-answer.txt</code> and <code>output/words-valid.txt</code> from the experiment directory. Use <code>output/variants/no-fem/</code> instead if feminine answers like <em>obesa</em> or <em>tonta</em> feel unfair. That variant scored 92–96% in the blind test. Both lists use the existing one-word-per-line format, so promoting them is a file copy.</p>
+  <p>The biggest wins came from three things: dropping plurals and verb forms, which were about a quarter of the current answers; a frequency threshold that uses several European-Portuguese corpora; and an LLM review pass for the ambiguous cases.</p>
+</div>
+
+<h2 id="icons">1 · Icons: Lucide replaces the hand-rolled SVGs</h2>
+<div class="prose">
+  <p>All 8 inline SVGs were replaced with <code>@lucide/vue</code> components, in <code>AppHeader.vue</code> and <code>ModalOverlay.vue</code>. Sizes and stroke widths are the same as before, and the chevron keeps its rotate-on-open class.</p>
+  <ul>
+    <li><strong>Package:</strong> <code>@lucide/vue</code>, the current official name (<code>lucide-vue-next</code> is now deprecated). Pinned with <code>--save-exact</code> to <code>1.50.0</code>, released 2 Oct, instead of today's daily release.</li>
+    <li><strong>Icons:</strong> RotateCcw (dev reset), CircleQuestionMark, Info, ChevronDown, ChartNoAxesColumn, Sun, Moon, X.</li>
+    <li><strong>Checked:</strong> <code>npm run build</code> passes, including vue-tsc type-checking. The bundle is tree-shaken (only the used icons ship). I rendered the built app in headless Edge and the header looks as before.</li>
+  </ul>
+</div>
+
+<h2 id="diagnosis">2 · What's wrong with the current lists</h2>
+<div class="prose">
+  <p>Before changing anything, I measured the current lists (<code>corpus/words-answer.txt</code>, 3,641 words, from SUBTLEX-PT). Some problems are structural, not about which corpus you start from:</p>
+</div>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Problem</th><th class="n">Current answers</th><th>Examples</th></tr></thead>
+  <tbody>
+    <tr><td>Plurals and conjugated verbs</td><td class="n">862 plural-like · 24% "inflected" per review</td><td>chats, snobs, raids, miras, nozes, andas</td></tr>
+    <tr><td>Not in the European-Portuguese (AO90) dictionary</td><td class="n">727</td><td>acção, actor, tecto, jóias, pólos (old spelling); libro, cerdo, guapa (Spanish inside SUBTLEX-PT)</td></tr>
+    <tr><td>Very rare words</td><td class="n">529 with fewer than 5 occurrences</td><td>cafre, nanja, amilo, tonar, curul, alvor</td></tr>
+    <tr><td>Brazilian leakage</td><td class="n">78 flagged</td><td>acauã, mantô, timbó, bugre, aipim, bunda</td></tr>
+    <tr><td>Typos</td><td class="n">—</td><td>homém</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="prose">
+  <h3>A display bug that comes from the word lists</h3>
+  <p><code>buildAccentMap</code> keeps the <em>last</em> accented spelling for each unaccented key. The current valid list has 140 keys with more than one spelling, so typing <span class="mono">AGORA</span> can show <span class="mono">ÁGORA</span>, and <span class="mono">HOMEM</span> can show <span class="mono">HOMÉM</span>. Scoring ignores accents, so only the display is wrong. The new valid list has exactly one spelling per key, which fixes this without touching app code. A small app fix is listed under next steps.</p>
+</div>
+
+<h2 id="sources">3 · Sources</h2>
+<div class="prose">
+  <p>A research agent surveyed what's available and checked every download URL. Each source answers a different question: <em>is it a European-Portuguese spelling?</em>, <em>is it common in Portugal?</em>, <em>is it Brazilian?</em>, <em>is it a lemma?</em></p>
+</div>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Source</th><th>Used for</th><th>Size</th><th>License</th></tr></thead>
+  <tbody>
+    <tr><td>SUBTLEX-PT (+ its P-PAL newspaper column)<span class="sub">existing</span></td><td>EP familiarity (subtitles, newspaper)</td><td class="n">76M tokens</td><td>research, cite</td></tr>
+    <tr><td>ESCOLEX<span class="sub">existing</span></td><td>reference list for comparison</td><td class="n">47k forms</td><td>research, cite</td></tr>
+    <tr><td>LibreOffice pt_PT Hunspell (Natura, UMinho, AO90)</td><td>EP spelling, POS, gender, number, pre-AO spelling, affix morphology</td><td class="n">44k stems → 6,605 five-letter forms</td><td>GPL/LGPL/MPL</td></tr>
+    <tr><td>Natura full wordlists, AO and pre-AO</td><td>completeness of EP spellings</td><td class="n">1M forms each</td><td>GPL/LGPL/MPL</td></tr>
+    <tr><td>VERO pt_BR Hunspell</td><td>Brazilian-only spellings (weak on its own)</td><td class="n">20,921 five-letter forms</td><td>LGPLv3/MPL</td></tr>
+    <tr><td>OpenSubtitles 2018 <code>pt</code> vs <code>pt_br</code> (hermitdave)</td><td>EP familiarity; PT/BR frequency ratio</td><td class="n">212M / 426M tokens</td><td>CC-BY-SA 4.0</td></tr>
+    <tr><td>Linguateca AC/DC <code>totalpt</code> vs <code>totalbr</code></td><td>PT/BR ratio (newspapers); coverage test</td><td class="n">214M / 81M tokens</td><td>free, cite (informal)</td></tr>
+    <tr><td>Leipzig newscrawl pt vs br, web pt (300K sentences)</td><td>PT/BR ratio (same register); familiarity</td><td class="n">6M / 5M / 6M tokens</td><td>CC BY (unconfirmed)</td></tr>
+    <tr><td>CLUL CORLEX</td><td>EP familiarity; coverage test</td><td class="n">15M tokens</td><td>"freely available"</td></tr>
+    <tr><td>kaikki.org Wiktionary (English, Portuguese section)</td><td>Brazil/Portugal sense tags, archaic/rare/vulgar tags, form-of links, superseded spellings</td><td class="n">10,483 five-letter headwords</td><td>CC BY-SA</td></tr>
+    <tr><td>LanguageTool <code>dialect_alternations.txt</code></td><td><strong>evaluation only</strong> (held-out BR↔PT pairs)</td><td class="n">7.5k pairs</td><td>LGPL</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="note prose">Surveyed but not used: P-PAL (no bulk download), VOP and VOC (query-only, no export), Corpus do Português (paid, no redistribution), Portuguese Wiktionary (region tags mostly on pronunciation), and existing EP Wordle clones on GitHub. The clones either had no license or mixed PT and BR spellings, e.g. both génio and gênio.</p>
+
+<h2 id="method">4 · Method</h2>
+<pre class="mermaid">
+flowchart LR
+  A[Dictionaries<br/>pt_PT · pt_BR · Wiktionary] --> C[22,461 candidates<br/>5-letter, dictionary-backed]
+  B[Corpora<br/>SUBTLEX · OpenSubs · AC/DC<br/>Leipzig · CORLEX] --> F[Feature table<br/>~40 columns per word]
+  C --> F
+  F --> R{Rules<br/>hard + soft}
+  L[LLM review<br/>3,819 words] --> R
+  R --> ANS[Answers<br/>1,692]
+  F --> V[Valid guesses<br/>6,973<br/>1 spelling per key]
+</pre>
+
+<div class="prose">
+<h3>Candidates and features</h3>
+<p>I wrote an affix expander (<code>hunspell_expand.py</code>) on top of spylls' parser. It reproduces Hunspell's <code>lookup</code> exactly in both directions and records what spylls drops: Natura's morphology for each rule (<code>+N=p</code> for plural, <code>+G=f</code> for feminine, verb tense and person), the lemma's POS, and its pre-AO90 spelling. The pre-AO mapping matters because SUBTLEX-PT and most corpora predate the spelling reform. Without it, <em>ator</em>, <em>atual</em> and <em>setor</em> look rare, since their counts sit under <em>actor</em>, <em>actual</em> and <em>sector</em>.</p>
+
+<h3>Familiarity</h3>
+<p>Familiarity is the mean Zipf frequency over the European-Portuguese sources: SUBTLEX-PT, OpenSubtitles-pt, Leipzig PT news and P-PAL. Two genres (subtitles and newspapers) give a better commonness signal than either alone.</p>
+
+<h3>Brazilianism detector</h3>
+<p>The detector combines three independent signals:</p>
+<ol class="steps">
+  <li><strong>Accent rule</strong> (deterministic): ê/ô where European Portuguese writes é/ó, as in tênis→ténis or gênio→génio. It fires when the é/ó form is a known EP spelling, or when the circumflex comes before m/n and the word isn't in the EP dictionary.</li>
+  <li><strong>Wiktionary</strong>: every sense of the word is tagged Brazil, or the word is a form of a Brazil-only lemma (e.g. bebês → bebê). Head labels apply only to their own entry. The first version applied them to the whole word, which wrongly flagged <em>treze</em> and <em>praça</em>.</li>
+  <li><strong>Frequency ratio</strong>: the median of the log₂ BR/EP relative-frequency ratio across subtitles, Leipzig news and AC/DC news.</li>
+</ol>
+<p>The ratio threshold comes from a leakage model, not a guess. European-Portuguese subtitles contain about 6.5% Brazilian text: <em>ônibus</em>, <em>celular</em> and <em>trem</em> show up there at 6–10% of their Brazilian rate. Above a ratio of 3.3, leakage alone explains most of a word's EP occurrences, so the word is flagged. Between 1.5 and 3.3 the word is "BR-leaning" and only goes to review. Words like <em>legal</em>, <em>pegar</em> and <em>jeito</em> sit in that band: Brazil uses them more, but they are normal in Portugal too.</p>
+
+<h3>Rules for answers</h3>
+<p>Each rule is either <span class="pill hard">hard</span> (always applies) or <span class="pill soft">soft</span> (applies only when the LLM review did not endorse the word).</p>
+</div>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Rule</th><th>Type</th><th>What it checks</th></tr></thead>
+  <tbody>
+    <tr><td>spelling</td><td><span class="pill hard">hard</span> / <span class="pill soft">soft</span></td><td>Must be in pt_PT (AO90). Words outside it but in Wiktionary or pt_BR, and not Brazilian, need familiarity ≥ 3; that part is soft (lótus, islão, sifão).</td></tr>
+    <tr><td>shape</td><td><span class="pill hard">hard</span></td><td>Must be a lemma: a dictionary stem of any POS except proper noun, a feminine singular, or a participle used as an adjective. Plurals, conjugated verbs, and words Wiktionary knows only as plural or verb forms (artes, lares, apaga) are rejected. Infinitives are allowed.</td></tr>
+    <tr><td>homograph</td><td><span class="pill soft">soft</span></td><td>Also a conjugated verb, and SUBTLEX's dominant POS is verbal: tinha (ringworm, or a form of ter), chama, cobra. Also covers contractions (daqui, disso) and AO90 lowercase months (abril, verão).</td></tr>
+    <tr><td>br</td><td><span class="pill hard">hard</span> / <span class="pill soft">soft</span></td><td>The accent rule and Wiktionary are hard; the frequency ratio is soft.</td></tr>
+    <tr><td>weird</td><td><span class="pill soft">soft</span></td><td>Every Wiktionary sense is archaic, obsolete, rare, regional or similar; or the spelling is superseded; or the word is mostly vulgar.</td></tr>
+    <tr><td>rare</td><td><span class="pill hard">hard</span> / <span class="pill soft">soft</span></td><td>Familiarity &lt; 2.25 is hard; between 2.25 and 3.0 it is soft, so the review can promote a word.</td></tr>
+    <tr><td>review</td><td><span class="pill hard">hard</span></td><td>The LLM verdict must be <em>keep</em>, with a familiarity rating ≥ 3 out of 5.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="prose">
+<h3>LLM review</h3>
+<p>Ten parallel reviewers, each prompted as a European-Portuguese lexicographer, labelled 3,819 words: my candidate pool (familiarity ≥ 2), plus <em>all</em> of your current answers and your ESCOLEX run, so all three lists were judged on equal terms. Each word got a verdict (keep / obscure / br / foreign / vulgar / inflected / proper / error) and a familiarity rating from 1 to 5. Each batch also included 25 words from another batch, to measure consistency.</p>
+<ul>
+  <li><strong>Self-consistency:</strong> 93% identical verdicts on 243 duplicated words, and 100% of familiarity ratings within ±1.</li>
+  <li><strong>Gold Brazilian words:</strong> 31 of 40 labelled br and 7 labelled inflected (they are BR plurals), so 38 of 40 were rejected.</li>
+</ul>
+
+<h3>Valid guesses</h3>
+<p>A word is valid if it is in pt_PT (LibreOffice or the full Natura list), or it is a Wiktionary word that is not a proper name, not archaic-only, not Brazilian, and has real EP usage (≥ 3 occurrences in SUBTLEX or ≥ 20 in OpenSubtitles-pt). Pre-AO90 spellings (acção, actor, tecto, jacto) are added when their unaccented key is free, since older players still type them. Each unaccented key keeps exactly one spelling: an answer wins first, then an EP spelling, then the more familiar one.</p>
+<p>The first version accepted any word VERO knew, which let in lowercased names (laura, jones, timor) and stray foreign tokens from subtitles (gotta, mamma). I caught this by sampling the output and tightened the rule.</p>
+</div>
+
+<h2 id="results">5 · Results</h2>
+
+<h3>Blind A/B test</h3>
+<div class="prose"><p>This is the most honest number in the report. Two fresh judges (Opus and Sonnet) saw 523 words in shuffled order with no source labels: 200 from my final list, 200 from the current list and 150 from the ESCOLEX run. They answered one question: <em>is this a good daily answer for players in Portugal?</em> The judges agreed with each other 90% of the time.</p></div>
+
+<figure class="figure" id="blind-chart" aria-labelledby="blind-title">
+  <h4 id="blind-title">Share of sampled answers judged "good"</h4>
+  <div class="cap">Bars show the share; whiskers show the 95% Wilson interval. Hover a bar for counts.</div>
+  <div class="legend"><span><i style="background:var(--series-1)"></i>Judge A (Opus)</span><span><i style="background:var(--series-2)"></i>Judge B (Sonnet)</span></div>
+  <div class="chart" role="img" aria-label="Experiment list: 90.0% and 84.5% good. No-feminine variant: 96.1% and 91.6%. ESCOLEX run: 61.3% and 56.7%. Current list: 42.5% and 40.0%.">
+  </div>
+  <div class="axis" aria-hidden="true"><div></div><div class="scale"><span style="left:0">0%</span><span style="left:25%">25%</span><span style="left:50%">50%</span><span style="left:75%">75%</span><span style="left:100%">100%</span></div></div>
+</figure>
+
+<div class="tablewrap">
+<table>
+  <thead><tr><th>List (sample)</th><th class="n">Judge A</th><th class="n">Judge B</th><th class="n">Both say good</th><th>Main reasons for rejection</th></tr></thead>
+  <tbody>
+    <tr class="hl"><td>Experiment, final (n=200)</td><td class="n">90.0%</td><td class="n">84.5%</td><td class="n">84.0%</td><td>"other": mostly feminine forms (obesa, tonta, doida, macia); a few loans (sushi, skate)</td></tr>
+    <tr><td>Experiment, no-fem subset (n=178)</td><td class="n">96.1%</td><td class="n">91.6%</td><td class="n">—</td><td>subset of the same sample</td></tr>
+    <tr><td>ESCOLEX run (n=150)</td><td class="n">61.3%</td><td class="n">56.7%</td><td class="n">54.7%</td><td>plural 72, obscure 24</td></tr>
+    <tr><td>Current (n=200)</td><td class="n">42.5%</td><td class="n">40.0%</td><td class="n">34.5%</td><td>plural 95, obscure 72, foreign 16, verb form 12</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Full review of each answer list</h3>
+<div class="prose"><p>Here every word in each list was reviewed, not a sample. The fully reviewed final list is 100% "keep" by construction, because the review is part of its filter, so it isn't shown. The rules-only list (<code>variants/auto</code>) is the fair comparison. Treat its number as slightly optimistic, since I fixed several rules after seeing review labels.</p></div>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>List</th><th class="n">Size</th><th>Keep</th><th class="n">Obscure</th><th class="n">Inflected</th><th class="n">Foreign</th><th class="n">BR</th><th class="n">Error</th><th class="n">Mean fam.</th></tr></thead>
+  <tbody>
+    <tr><td>Current</td><td class="n">3,641</td><td><span class="bar" style="width:50.3px"></span>50.3%</td><td class="n">16.5%</td><td class="n">24.1%</td><td class="n">3.6%</td><td class="n">1.5%</td><td class="n">2.7%</td><td class="n">3.17</td></tr>
+    <tr><td>ESCOLEX run</td><td class="n">2,468</td><td><span class="bar" style="width:63.4px"></span>63.4%</td><td class="n">10.0%</td><td class="n">23.7%</td><td class="n">0.7%</td><td class="n">0.5%</td><td class="n">1.0%</td><td class="n">3.65</td></tr>
+    <tr class="hl"><td>Experiment, rules only</td><td class="n">1,223</td><td><span class="bar" style="width:96.2px"></span>96.2%</td><td class="n">0.7%</td><td class="n">0.7%</td><td class="n">1.5%</td><td class="n">0.1%</td><td class="n">0.1%</td><td class="n">4.22</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Brazilianism detector</h3>
+<div class="cols">
+  <div>
+    <p class="note">Held out: LanguageTool BR↔PT pairs. These were never used to build or tune the detector. 72 BR forms and 46 PT forms are five-letter candidates.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Signal</th><th class="n">BR recall</th><th class="n">PT false +</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td><strong>Combined (hard + ratio)</strong></td><td class="n">93%</td><td class="n">0%</td></tr>
+        <tr><td>Accent rule</td><td class="n">79%</td><td class="n">0%</td></tr>
+        <tr><td>AC/DC news ratio &gt; 1.5</td><td class="n">51%</td><td class="n">4%</td></tr>
+        <tr><td>OpenSubtitles ratio &gt; 1.5</td><td class="n">31%</td><td class="n">0%</td></tr>
+        <tr><td>Wiktionary BR-only</td><td class="n">28%</td><td class="n">0%</td></tr>
+        <tr><td>"Not in pt_PT" (naive)</td><td class="n">96%</td><td class="n bad">48%</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div>
+    <p class="note">Hand-made gold set: 40 BR, 37 EP and 40 neutral words. The combined detector gets 31/39 BR with <strong>0 false positives</strong> on the EP and neutral sets. The lean band (review-only) adds vovós, garoa, mamão and 4 more, but would also catch <em>fatos</em> and <em>filho</em>, which is why it isn't automatic.</p>
+    <div class="words">
+      <span class="word">bônus ✓</span><span class="word">tênis ✓</span><span class="word">mamãe ✓</span><span class="word">xampu ✓</span><span class="word">metrô ✓</span><span class="word">bonde ✓</span><span class="word">tchau ✓</span><span class="word">brega ✓</span><span class="word">garoa · lean</span><span class="word">xerox ✗</span>
+    </div>
+    <p class="note">The first version of the held-out test showed only 44% recall. Most five-letter BR forms there are rare technical words (rênio, cênio, vômer) with no corpus counts. Checking the accent rule against the full Natura list and adding the "circumflex before m/n" pattern raised recall to 93%, still with no false positives.</p>
+  </div>
+</div>
+
+<h3>Valid-guess list</h3>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Valid list</th><th class="n">Size</th><th class="n">EP coverage, CORLEX</th><th class="n">EP coverage, AC/DC-PT</th><th class="n">Accent collisions</th><th class="n">Not in any dictionary</th><th class="n">BR-flagged</th></tr></thead>
+  <tbody>
+    <tr><td>Current</td><td class="n">5,969</td><td class="n">99.69%</td><td class="n">98.48%</td><td class="n bad">140</td><td class="n">108</td><td class="n">102</td></tr>
+    <tr><td>ESCOLEX run</td><td class="n">3,460</td><td class="n">98.99%</td><td class="n">97.54%</td><td class="n">49</td><td class="n">9</td><td class="n">31</td></tr>
+    <tr class="hl"><td>Experiment</td><td class="n">6,973</td><td class="n good">99.97%</td><td class="n good">99.61%</td><td class="n good">0</td><td class="n good">0</td><td class="n">74</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="prose">
+  <p class="note">Coverage is the share of five-letter word tokens in each EP corpus that the list accepts, which measures how often a real word typed by a player would be rejected. Proper names don't count, and these two corpora don't feed the valid-list rules. Compared with the current list, 1,594 keys were added (mostly inflections the current list lacks) and 448 dropped: 102 are in no dictionary (beats, brent, décor), 31 are Brazilian (aipim, cupim, frear, seção), and 315 have neither an EP dictionary entry nor EP usage (acaçá, alfim, azeri). The remaining "BR-flagged" entries are words Natura itself accepts (mamãe, bonde, zumbi), so I left them as valid guesses.</p>
+</div>
+
+<h3>What changed in the answers</h3>
+<div class="cols">
+  <div>
+    <p class="note">Examples of current answers that were dropped:</p>
+    <div class="words">
+      <span class="word bad">chats</span><span class="word bad">raids</span><span class="word bad">acauã</span><span class="word bad">mantô</span><span class="word bad">homém</span><span class="word bad">cafre</span><span class="word bad">nanja</span><span class="word bad">acção</span><span class="word bad">pólos</span><span class="word bad">libro</span><span class="word bad">timbó</span><span class="word bad">curul</span>
+    </div>
+  </div>
+  <div>
+    <p class="note">Examples of new answers: AO90 forms that SUBTLEX buried, and words promoted by the review:</p>
+    <div class="words">
+      <span class="word">atual</span><span class="word">ativo</span><span class="word">setor</span><span class="word">exato</span><span class="word">ótimo</span><span class="word">ideia</span><span class="word">dália</span><span class="word">axila</span><span class="word">cedro</span><span class="word">polpa</span><span class="word">ginja</span><span class="word">guita</span>
+    </div>
+  </div>
+</div>
+<p class="note prose">Final answer mix: 968 nouns, 267 adjectives, 180 infinitives, 170 feminine forms, 18 participles, and smaller numbers of adverbs, pronouns and numerals. All 5 app-compatibility tests pass (<code>tests/app_compat.test.ts</code>, which imports the app's own <code>accents.ts</code>): every answer is guessable, there's one spelling per key, and fewer than 2% of answers display a different accented spelling when typed (louca/louça-type homographs).</p>
+
+<h2 id="variants">6 · Variants to choose from</h2>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>Path under <code>output/</code></th><th class="n">Answers</th><th>When to pick it</th></tr></thead>
+  <tbody>
+    <tr class="hl"><td><code>words-answer.txt</code></td><td class="n">1,692</td><td>Default: rules plus review, includes feminine adjectives and nouns.</td></tr>
+    <tr><td><code>variants/no-fem/</code></td><td class="n">1,513</td><td>Players expect masculine forms only. Highest blind score.</td></tr>
+    <tr><td><code>variants/auto/</code></td><td class="n">1,223</td><td>You want no LLM involvement: rules only, fully reproducible from public data.</td></tr>
+    <tr><td><code>variants/auto-strict/</code></td><td class="n">837</td><td>Rules only with familiarity ≥ 3.5: a very easy everyday list.</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="note prose">All variants share the same <code>words-valid.txt</code> (6,973). <code>answers-scored.tsv</code> ranks the answers by familiarity, if you'd rather order or tier the daily words, for example easier words on Mondays.</p>
+
+<h2 id="limits">7 · Limitations</h2>
+<div class="prose">
+<ul>
+  <li><strong>LLM judges share a model family.</strong> The reviewers, the blind judges and I are all Claude models. Using Sonnet for one blind judge adds some diversity, and the 90% agreement is reassuring, but a native speaker reading even 200 words would be a stronger check.</li>
+  <li><strong>Some tuning used review labels.</strong> Several shape-rule fixes (feminine forms, homographs, contractions) came from inspecting where the rules disagreed with the review. The rules-only 96% is therefore slightly optimistic. The blind A/B test does not have this problem.</li>
+  <li><strong>News ratios pick up proper nouns.</strong> <em>folha</em> scores as Brazilian because of <em>Folha de S. Paulo</em>, and <em>cesta</em> because of <em>cesta básica</em>. The median across three sources and the review override contain this, but it's why the frequency ratio is only a soft rule.</li>
+  <li><strong>The valid list leans permissive.</strong> It accepts some English loans with real EP use (crash, poker, story), and Natura accepts a handful of Brazilian words (mamãe, bonde). Guesses cost nothing, so I preferred not rejecting real words.</li>
+  <li><strong>Licensing.</strong> The output lists are derived data. OpenSubtitles and Wiktionary are CC BY-SA, the dictionaries GPL/LGPL/MPL, and Linguateca, CLUL and Leipzig have informal or unconfirmed terms. The repo is GPL-3.0 and the README already credits SUBTLEX-PT. Add attributions for the new sources before promoting the lists.</li>
+  <li><strong>Small gaps.</strong> Plural-only nouns (juros, bodas, férias) and some loans outside Natura (écran, rugby) are rejected as answers even when reviewers liked them.</li>
+</ul>
+</div>
+
+<h2 id="next">8 · Next steps</h2>
+<div class="prose">
+<ol class="steps">
+  <li><strong>Pick a variant and promote it:</strong> copy the two files into <code>corpus/</code> and <code>src/data/</code>, and extend the README's word-list credits.</li>
+  <li><strong>Native-speaker pass on the margin.</strong> The words most likely to be wrong are easy to pull out: the 102 BR-leaning answers (<code>br_lean=1</code> in <code>answers-scored.tsv</code>) and the 170 feminine forms. A small review page with saved verdicts would make this a 20-minute job.</li>
+  <li><strong>Small app fix:</strong> in <code>resolveAccented</code>, prefer today's answer when the unaccented guess matches it, so typing <span class="mono">LOUCA</span> on a <em>louça</em> day shows LOUÇA.</li>
+  <li><strong>Other word lengths:</strong> the pipeline takes a length parameter in most steps, so 4- and 6-letter lists would mostly be a re-run plus another review pass.</li>
+  <li><strong>Plural-only nouns:</strong> add a short allowlist (férias, óculos, juros, calças).</li>
+  <li><strong>Fold the useful parts into <code>extract_words.py</code></strong>, or keep the experiment folder as the generator. <code>run_all.sh</code> rebuilds everything in about a minute after <code>fetch_sources.sh</code>.</li>
+</ol>
+</div>
+
+<h2 id="repro">9 · Files and how to reproduce</h2>
+<pre class="code">corpus/experiments/claude-2026-10/
+  README.md                  overview
+  scripts/fetch_sources.sh   download all sources into sources/ (git-ignored, ~600 MB)
+  scripts/run_all.sh         rebuild everything (~1 min)
+    01_local_corpora.py      SUBTLEX-PT + ESCOLEX → TSV
+    hunspell_expand.py       unmunch with Natura morphology
+    05_wiktionary.py         Wiktionary tags per word
+    10_features.py           join all sources → work/features_c5.tsv
+    20_select.py             rules → output/
+    30_review_merge.py       LLM review merge + per-list report
+    eval_br.py · 40_evaluate.py · 50_blind_score.py
+  eval/                      gold sets, LLM review batches, blind A/B sample + verdicts
+  output/                    words-answer.txt, words-valid.txt, variants/, metrics.json
+  tests/app_compat.test.ts   npx vitest run corpus/experiments/claude-2026-10/tests</pre>
+<p class="note prose">Requires Python 3.11+, pandas and openpyxl (step 01 only), and <code>spylls==0.1.7</code>. Scripts run with <code>python -P</code> because the downloaded data is treated as untrusted. Uncommitted repo changes: the icon swap (<code>package.json</code>, <code>package-lock.json</code>, two components) and the new <code>corpus/experiments/</code> folder. Your own in-progress edits to <code>extract_words.py</code> and the ESCOLEX run were left as they were.</p>
+
+<footer>Generated autonomously by Claude Code on 16 Oct 2026 for the termo-pt project.</footer>
+</div>
+
+<script>
+(function () {
+  const data = [
+    { name: "Experiment", sub: "final, n=200", a: [180, 200, 85.1, 93.4], b: [169, 200, 78.8, 88.9] },
+    { name: "Experiment", sub: "no-fem, n=178", a: [171, 178, null, null], b: [163, 178, null, null] },
+    { name: "ESCOLEX run", sub: "n=150", a: [92, 150, 53.3, 68.8], b: [85, 150, 48.7, 64.3] },
+    { name: "Current", sub: "n=200", a: [85, 200, 35.9, 49.4], b: [80, 200, 33.5, 46.9] }
+  ];
+  const chart = document.querySelector("#blind-chart .chart");
+  const row = (v, color, judge) => {
+    const [k, n, lo, hi] = v;
+    const pct = (100 * k / n);
+    const t = document.createElement("div");
+    t.className = "track";
+    t.tabIndex = 0;
+    t.innerHTML =
+      `<div class="fill" style="width:${pct}%;background:${color}"></div>` +
+      (lo != null ? `<div class="ci" style="left:${lo}%;width:${hi - lo}%"></div>` : "") +
+      (pct > 80
+        ? `<span class="val" style="right:${100 - pct}%;padding:0 6px 0 0;top:1px;color:var(--tile-ink)">${pct.toFixed(1)}%</span>`
+        : `<span class="val" style="left:${lo != null ? hi : pct}%">${pct.toFixed(1)}%</span>`) +
+      `<div class="tip">${judge}: ${k} of ${n} good` + (lo != null ? ` · 95% CI ${lo}–${hi}%` : "") + `</div>`;
+    return t;
+  };
+  for (const d of data) {
+    const g = document.createElement("div");
+    g.className = "grp";
+    g.innerHTML = `<div class="lbl">${d.name}<small>${d.sub}</small></div>`;
+    g.appendChild(row(d.a, "var(--series-1)", "Opus"));
+    g.appendChild(row(d.b, "var(--series-2)", "Sonnet"));
+    chart.appendChild(g);
+  }
+})();
+</script>

@@ -1,0 +1,5 @@
+# raw downloaded corpora/dictionaries (re-fetch with scripts/fetch_sources.sh)
+sources/
+# intermediate feature tables (regenerate with scripts)
+work/
+__pycache__/

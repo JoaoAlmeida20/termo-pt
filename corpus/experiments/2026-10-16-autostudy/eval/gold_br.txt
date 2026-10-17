@@ -1,0 +1,43 @@
+# 5-letter words that mark Brazilian Portuguese (spelling or vocabulary).
+# Used to measure recall of the Brazilianism detectors. One word per line,
+# optional comment after '#' gives the European equivalent.
+bônus  # bónus
+tênis  # ténis
+gênio  # génio
+pônei  # pónei
+sêmen  # sémen
+tênue  # ténue
+pênis  # pénis
+fêmur  # fémur
+vênus  # vénus
+bebês  # bebés
+purês  # purés
+metrô  # metro
+judôs  # judos
+tônus  # tónus
+mamãe  # mamã
+papai  # papá
+vovós  # avós
+vovôs  # avôs
+xampu  # champô
+garoa  # chuvisco
+bonde  # elétrico
+tchau  # adeus / xau
+chope  # imperial
+forró
+bunda  # rabo
+brega  # piroso
+grana  # guita / massa
+trens  # comboios
+moças  # raparigas
+sucos  # sumos
+mamão  # papaia
+guris  # miúdos
+sabiá
+bugre
+pajés
+titia  # tia
+nenês  # bebés
+xerox
+treco  # coisa
+pinga  # aguardente

@@ -1,0 +1,20 @@
+detector                                BR recall  EP false+  neutral false+
+opensubs ratio > 1.5                     36/40       0/37          0/40     EP-FP=[] N-FP=[]
+leipzig ratio > 1.5                      30/40       1/37          1/40     EP-FP=['fatos'] N-FP=['filho']
+AC/DC news ratio > 1.5                   39/40       1/37          1/40     EP-FP=['fatos'] N-FP=['filho']
+accent rule (ê/ô vs é/ó)                 14/40       0/37          0/40     EP-FP=[] N-FP=[]
+wiktionary BR-only (word or lemma)       12/40       0/37          0/40     EP-FP=[] N-FP=[]
+not in hunspell pt_PT                    28/40       1/37          0/40     EP-FP=['purés'] N-FP=[]
+COMBINED                                 39/40       1/37          1/40     EP-FP=['fatos'] N-FP=['filho']
+  missed BR: ['judôs']
+  gold words absent from candidates: ['judôs']
+
+LanguageTool held-out: 72 BR forms, 46 PT forms in candidates
+  strong (is_br)   BR recall 67/72 (93%)  PT false+ 0/46 (0%) []
+  strong or lean   BR recall 68/72 (94%)  PT false+ 0/46 (0%) []
+  opensubs>1.5     BR recall 22/72 (31%)  PT false+ 0/46 (0%) []
+  acdc>1.5         BR recall 37/72 (51%)  PT false+ 2/46 (4%) ['caché', 'ébola']
+  accent rule      BR recall 57/72 (79%)  PT false+ 0/46 (0%) []
+  wiktionary       BR recall 20/72 (28%)  PT false+ 0/46 (0%) []
+  not in pt_PT     BR recall 69/72 (96%)  PT false+ 22/46 (48%) ['aníon', 'aónio', 'bandó', 'codão', 'dodós', 'evasé', 'fónix', 'gluão']
+  missed by strong: bandô evasê fatos ibêji árgon

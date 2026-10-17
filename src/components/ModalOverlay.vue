@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
+import { X } from '@lucide/vue'
 
 const emit = defineEmits<{
   close: []
@@ -18,10 +19,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
     <div class="overlay" @click.self="emit('close')">
       <div class="modal">
         <button v-blur-on-click class="close-btn" @click="emit('close')" aria-label="Fechar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
+          <X :size="20" />
         </button>
         <slot />
       </div>
